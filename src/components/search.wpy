@@ -1,0 +1,89 @@
+<style lang="less">
+.content {
+  padding: 10rpx;
+}
+
+.search {
+  align-items: center;
+  display: flex;
+  margin: 0 auto;
+  width: 680rpx;
+  .serch_content {
+    display: flex;
+    align-items: center;
+    border-radius: 300rpx;
+    color: #333;
+    width: 560rpx;
+    background: #efefef;
+    padding: 5rpx 12rpx;
+    height: 65rpx;
+    .search_input {
+      font-size: 28rpx;
+      width: 100%;
+    }
+  }
+  .icon-search {
+    font-size: 40rpx;
+  }
+  .btn {
+    width: 120rpx;
+    height: 65rpx;
+    font-size: 28rpx;
+    line-height: 65rpx;
+    margin-left: 20rpx;
+    padding-left: 5rpx;
+    padding-right: 5rpx;
+  }
+  .btn_search {
+    color: #fff;
+    background: #e2413c;
+  }
+  .icon-del {
+    height: 60rpx;
+    line-height: 60rpx;
+    width: 60rpx;
+    font-size: 40rpx;
+  }
+}
+</style>
+<template>
+  <div class="content">
+    <div class="search">
+      <div class="serch_content">
+        <div class="iconfont icon-search"></div>
+        <input
+          type="text"
+          name="search_input"
+          class="search_input"
+          focus="true"
+          v-model="search_input_value"
+          confirm-type="search"
+          placeholder="搜索商品"
+        />
+        <div v-if="search_input_value!=''" @tap="delText" class="iconfont icon-del"></div>
+      </div>
+      <button class="btn btn_cancel" v-if="search_input_value==''">取消</button>
+      <button class="btn btn_search" @tap="search(search_input_value)" v-else>搜索</button>
+    </div>
+  </div>
+</template>
+
+<script>
+import wepy from '@wepy/core';
+import {request} from '../common/request';
+
+wepy.component({
+  props: {
+    search_input_value: {}
+  },
+
+  methods: {
+    search(search_input_value) {
+      request({url:'../common/globalData/allProductList/'})
+      .then(result =>{
+        this.list = result;
+      })
+    }
+  }
+});
+</script>

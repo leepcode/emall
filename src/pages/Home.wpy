@@ -1,0 +1,205 @@
+<style lang="less">
+/* 列表 */
+.list {
+  position: relative;
+  width: 100%;
+  height: 200rpx;
+  border-bottom: 1rpx solid #e9e9e9;
+}
+
+/*列表图片*/
+.list_img {
+  position: absolute;
+  top: 20rpx;
+  left: 100rpx;
+  width: 160rpx;
+  height: 160rpx;
+}
+
+/* 列表名称 */
+.list_name {
+  position: absolute;
+  left: 280rpx;
+  top: 20rpx;
+  width: 400rpx;
+  font-size: 30rpx;
+  font-weight: bold;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/*规格 */
+.list_number {
+  position: absolute;
+  left: 280rpx;
+  top: 75rpx;
+  width: 400rpx;
+  font-size: 30rpx;
+  color: #858585;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* 列表价格 */
+.list_price {
+  position: absolute;
+  font-size: 32rpx;
+  color: #d66058;
+  left: 280rpx;
+  bottom: 20rpx;
+}
+</style>
+
+<template>
+  <div class="container">
+    <search :search_input_value="search_input_value"></search>
+    <div class="list" v-for="(item, index) in list" v-bind:key="index">
+      <div @tap="viewDetail(item)">
+        <text class="list_name">{{ item.title }}</text>
+        <img class="list_img" src="{{ item.image }}" />
+        <text class="list_number">规格：{{ item.specifications }}</text>
+        <text class="list_price">￥{{ item.price }}</text>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import wepy from '@wepy/core';
+import { request } from '../common/request';
+
+wepy.page({
+  config: {
+    navigationBarTitleText: '分类'
+  },
+
+  data: {
+    list: [
+      {
+        title:
+          '【限时6+64G直降200】Huawei/华为畅享10 大内存智能手机 华为手机 4800万华为官方旗舰店',
+        image: '../images/PhoneListImg/华为畅享10.jpg',
+        specifications: '6.39英寸 | 超长待机 | 上市:2019-10',
+        price: 1099,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title: 'Apple/苹果 iPhone 11',
+        image: '../images/PhoneListImg/iPhone 11.jpg',
+        specifications: '享24期免息，可免824.9元，每期229.1元（每日7.6元）',
+        price: 5499,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title:
+          '【12期免息+优惠520元】OPPO A92s oppoa92s手机新款上市 官网旗舰手机 5g手机 oppor17 pro 未来x 0pp0手机',
+        image: '../images/PhoneListImg/oppoA92s.jpg',
+        specifications: '6.57英寸 | 超长待机 | 上市:2020-04',
+        price: 1999,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title:
+          '【新颜色开售 12期免息】红米k30pro 骁龙865索尼6400万智能游戏学生5g手机redmi小米官方旗舰店正品xiaomi',
+        image: '../images/PhoneListImg/Redmik30Pro.jpg',
+        specifications: '6.67英寸 | 超长待机 | 上市:2020-03',
+        price: 3299,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title:
+          '【享24期免息】vivo X50双模5G智能手机官方旗舰店官网正品vivoX50全新限量版x30 x27 s6 s5 x50pro',
+        image: '../images/PhoneListImg/vivoX50.jpg',
+        specifications: '6.56英寸 | 超长待机 | 上市:2020-06',
+        price: 3498,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title:
+          '【买赠耳机】Huawei/华为畅享Z 5G双模90Hz畅滑屏手机畅享z5g手机智能手机华为手机华为官方旗舰店',
+        image: '../images/PhoneListImg/华为畅享Z.jpg',
+        specifications: '6.5英寸 | 超长待机 | 上市:2020-05',
+        price: 1699,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title:
+          '【限时6期免息】Huawei/华为nova7 SE5G超级快充40W 华为 5g手机智能手机华为手机华为官方旗舰店',
+        image: '../images/PhoneListImg/华为nova7SE 5G.jpg',
+        specifications: '6.5英寸 | 超长待机 | 上市:2020-04',
+        price: 2399,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title:
+          '【限时6期免息】Huawei/华为Mate30 5G 麒麟990徕卡5G手机mate30 5g手机智能手机华为手机华为官方旗舰店',
+        image: '../images/PhoneListImg/华为mate30 5G.jpg',
+        specifications: '6.62英寸 | 超长待机 | 上市:2019-11',
+        price: 4499,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title: 'Apple/苹果 iPhone SE',
+        image: '../images/PhoneListImg/iPhone SE.jpg',
+        specifications: '享24期免息，可免247.4元，每期274.9元（每日9.2元）',
+        price: 3299,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title: 'Apple/苹果 iPhone XR',
+        image: '../images/PhoneListImg/iPhone XR.jpg',
+        specifications: '享24期免息，可免359.9元，每期399.9元（每日13.3元）',
+        price: 4799,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title: 'Apple/苹果 iPhone 11 Pro',
+        image: '../images/PhoneListImg/iPhone 11 Pro.jpg',
+        specifications: '享24期免息，可免1304.8元，每期362.5元（每日12.1元）',
+        price: 8699,
+        buynbr: 0,
+        selected: true
+      },
+      {
+        title: 'Apple/苹果 iPhone 11 Pro Max',
+        image: '../images/PhoneListImg/iPhone 11 Pro Max.jpg',
+        specifications: '享24期免息，可免1439.8元，每期400元（每日13.3元）',
+        price: 9599,
+        buynbr: 0,
+        selected: true
+      }
+    ],
+    search_input_value: ''
+  },
+
+  methods: {
+    viewDetail(Item) {
+      let list = JSON.stringify(Item);
+      wx.navigateTo({
+        url: 'viewProduct?product=' + list
+      });
+    }
+  },
+
+  onLoad(option) {}
+});
+</script>
+<config>
+{
+    navigationBarTitleText: '主页',
+    usingComponents: {
+      search: '../components/search'
+  
+    }
+}
+</config>

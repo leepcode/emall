@@ -1,0 +1,47 @@
+<style lang="less">
+</style>
+
+<template>
+  <div>
+    <div v-for="(item,index) in allProductList" v-bind:key="index">
+      <div v-if="index == listIndex">
+        <browseList :productList.sync="item"></browseList>
+      </div>
+    </div>
+  </div>
+</template>
+
+<script>
+import wepy from '@wepy/core';
+import globalData from '../common/globalData';
+
+wepy.page({
+ 
+  config: {
+    navigationBarTitleText: '分类'
+  },
+
+  data: {
+    allProductList:globalData.allProductList,
+    listIndex:-1
+  },
+
+  computed: {},
+
+  methods: {
+    
+   
+  },
+  onLoad(query) {
+    this.listIndex = query.Index;
+  }
+});
+</script>
+<config>
+{
+    navigationBarTitleText: '商品',
+    usingComponents: {
+        browseList: '../components/browseList',
+    }
+}
+</config>
